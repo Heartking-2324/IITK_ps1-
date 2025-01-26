@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threat Intelligence Extractor</title>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2b1055;
+            --secondary-color: #7597de;
+            --accent-color: #4e54c8;
+            --gradient-start: #2b1055;
+            --gradient-end: #7597de;
+            --text-color: #333;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            min-height: 100vh;
+            color: var(--text-color);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .background-animation {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        }
+
+        .circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .circles li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+            border-radius: 50%;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .description {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        label i {
+            color: var(--accent-color);
+        }
+
+        select, textarea, input[type="file"] {
+            padding: 15px;
+            border: 2px solid rgba(78, 84, 200, 0.1);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        select:focus, textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(78, 84, 200, 0.1);
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+            color: white;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(78, 84, 200, 0.3);
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::after {
+            left: 100%;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* File input styling */
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .card {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation">
+        <ul class="circles">
+            <li></li><li></li><li></li><li></li><li></li>
+            <li></li><li></li><li></li><li></li><li></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Threat Intelligence Extractor</h1>
+            <p class="description">
+                Harness the power of advanced AI to extract and analyze threat intelligence from your reports and documents.
+                Our cutting-edge system processes your data with precision and delivers actionable insights.
+            </p>
+        </div>
+
+        <div class="card">
+            <form action="/extract" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="input_type">
+                        <i class="fas fa-layer-group"></i> Select Input Type
+                    </label>
+                    <select name="input_type" id="input_type" required>
+                        <option value="" disabled selected>Choose your input method</option>
+                        <option value="text">Text Analysis</option>
+                        <option value="file">Document Analysis (PDF/Image)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="report_text">
+                        <i class="fas fa-align-left"></i> Enter Report Text
+                    </label>
+                    <textarea 
+                        name="report_text" 
+                        id="report_text" 
+                        rows="10" 
+                        placeholder="Paste your threat report content here for comprehensive analysis..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="file">
+                        <i class="fas fa-file-upload"></i> Upload Document
+                    </label>
+                    <div class="file-input-wrapper">
+                        <input type="file" name="file" id="file" accept=".pdf, .png, .jpg, .jpeg">
+                    </div>
+                </div>
+
+                <button type="submit">
+                    <i class="fas fa-shield-alt"></i> Extract Intelligence
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Threat Intelligence Extractor | Powered by Advanced AI Analytics</p>
+    </footer>
+</body>
+</html>
