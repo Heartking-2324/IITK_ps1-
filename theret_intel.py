@@ -21,7 +21,7 @@ VIRUSTOTAL_API_KEY = os.getenv("53b2883006ac7fda272011c661f3c0a67cc64b4ee30cc9a2
 VIRUSTOTAL_URL = "https://www.virustotal.com/api/v3/files/"
 
 # Geolocation API setup
-IPGEOLOCATION_API_KEY = os.getenv("IPGEOLOCATION_API_KEY")
+IPGEOLOCATION_API_KEY = os.getenv("f39a6ddb04dd4bf3b5142dae6824b643")
 IPGEOLOCATION_URL = "https://api.ipgeolocation.io/ipgeo"
 
 # IoC Patterns
@@ -143,9 +143,8 @@ def extract():
     # Process threat intelligence
     try:
         threat_data = extract_threat_intelligence(text)
-        return jsonify(threat_data)
+        return render_template("results.html", threat_data=threat_data)
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
+        return jsonify({"error": str(e)}), 500  
 if __name__ == "__main__":
     app.run(debug=True)
