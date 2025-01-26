@@ -65,6 +65,7 @@ python -m spacy download en_core_web_sm
 
 1. **Upload a Threat Report:**
    - Users can upload a PDF threat report via the web interface.
+   ![](https://github.com/Heartking-2324/IITK_ps1-/blob/main/templates/Screenshot%202025-01-27%20003050.png)
 
 2. **Processing:**
    - The tool extracts text from the PDF.
@@ -75,6 +76,7 @@ python -m spacy download en_core_web_sm
 3. **Output:**
    - Displays the extracted data on the web interface in a structured JSON format.
    - Allows filtering of specific data (e.g., only IP addresses).
+   ![](https://github.com/Heartking-2324/IITK_ps1-/blob/main/templates/output%20json.jpg)
 
 ---
 
